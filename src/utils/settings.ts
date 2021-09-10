@@ -1,5 +1,5 @@
 //style
-export const pointRadius = 2;
+export const pointRadius = 4;
 export const stickWidth = 1;
 export const lockedPointColor = 'red';
 
@@ -10,6 +10,5 @@ export const clothX = 100;
 export const clothY = 50;
 export const marginX = 30;
 export const marginY = 30;
-export const cutThreshold = 50;
-export const bottomBoundary = 1500;
-
+export const cutThreshold = 25;
+export const bottomBoundary = window.innerHeight + 500;
