@@ -31,6 +31,7 @@ const ctx = canvas.getContext('2d')!;
 //data
 const points: Point[] = [];
 const sticks: Stick[] = [];
+const anchorPoints: Point[] = [];
 
 generateCloth();
 
@@ -63,6 +64,7 @@ function generateCloth() {
         x % 10 == 0 && x != 0 && y == 0
       );
       points.push(p);
+      if (p.isLocked) anchorPoints.push(p);
 
       if (x > 0) {
         sticks.push(new Stick(p, points[y * clothX + x - 1]));
@@ -81,6 +83,17 @@ function cut(x: number, y: number) {
 
     if (dist < cutThreshold) {
       sticks.splice(i, 1);
+    }
+  }
+
+  for (const [i, anchor] of anchorPoints.entries()) {
+    const dist = Vector2.distance(new Vector2(x, y), anchor.pos);
+
+    if (dist < cutThreshold) {
+      const iP = points.findIndex((p) => p == anchor);
+      points.splice(iP, 1);
+      anchorPoints.splice(i, 1);
+      anchor.del = true;
     }
   }
 }

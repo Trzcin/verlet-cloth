@@ -1,10 +1,14 @@
-import Vector2 from "../utils/Vector2";
-import Stick from "../utils/Stick";
-import {bottomBoundary} from "../utils/settings";
+import Vector2 from '../utils/Vector2';
+import Stick from '../utils/Stick';
+import { bottomBoundary } from '../utils/settings';
 
 export default function updateSticks(sticks: Stick[]) {
   for (const [i, stick] of sticks.entries()) {
-    if ((!stick.p1 && !stick.p2) || (stick.p1.pos.y > bottomBoundary && stick.p2.pos.y > bottomBoundary)) {
+    if (
+      stick.p1.del ||
+      stick.p2.del ||
+      (stick.p1.pos.y > bottomBoundary && stick.p2.pos.y > bottomBoundary)
+    ) {
       sticks.splice(i, 1);
     }
 
@@ -21,12 +25,10 @@ export default function updateSticks(sticks: Stick[]) {
     if (stick.p1.isLocked) {
       stick.p2.pos.x += offsetX * 2;
       stick.p2.pos.y += offsetY * 2;
-    }
-    else if (stick.p2.isLocked) {
+    } else if (stick.p2.isLocked) {
       stick.p1.pos.x -= offsetX * 2;
       stick.p1.pos.y -= offsetY * 2;
-    }
-    else {
+    } else {
       stick.p1.pos.x -= offsetX;
       stick.p1.pos.y -= offsetY;
       stick.p2.pos.x += offsetX;
